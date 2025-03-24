@@ -10,7 +10,9 @@ Position = Tuple[int, int]
 def manhattan_distance(current: Position, finish: Position) -> int:
     return abs(current[0] - finish[0]) + abs(current[1] - finish[1])
 
-# Heuristic 2 - 
+# Heuristic 2 - Euclidean Distance
+def euclidean_distance(current: Position, finish: Position) -> float:
+    return ((current[0] - finish[0]) ** 2 + (current[1] - finish[1]) ** 2) ** 0.5
 
 def astar(maze: Maze, start: Position, finish: Position) -> Tuple[int, List[MazeViz]]:
     """
@@ -23,9 +25,7 @@ def astar(maze: Maze, start: Position, finish: Position) -> Tuple[int, List[Maze
 
     Returns:
     - Number of steps from start to finish, equals -1 if the path is not found
-    - Viz - everything required for step-by-step vizualization
-    - Path - list of positions from start to finish
-    
+    - Viz - everything required for step-by-step vizualization    
     """
 
     # Define valid position function
@@ -121,7 +121,7 @@ def astar(maze: Maze, start: Position, finish: Position) -> Tuple[int, List[Maze
 
 def vizualize(viz: List[MazeViz]) -> None:
     """
-    Vizualization function. Shows step by step the work of the search algorithm
+    Vizualisation function. Shows step by step the work of the search algorithm
 
     Parameters:
     - viz: everything required for step-by-step vizualization
@@ -151,13 +151,13 @@ def vizualize(viz: List[MazeViz]) -> None:
 maze = [
     [0, 1, 0, 0, 0],
     [0, 1, 0, 1, 0],
-    [0, 0, 0, 1, 0],
-    [1, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0],
     [0, 0, 0, 1, 0]
 ]
 
 start_position = (0, 0)
-finish_position = (4, 0)
+finish_position = (0, 4)
 
 num_steps, viz = astar(maze, start_position, finish_position)
 
