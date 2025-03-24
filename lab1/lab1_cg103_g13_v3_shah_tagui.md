@@ -4,7 +4,7 @@ Variant 3
 
 Group 13
 
-By **Saumya Shah** and **Anas Tagui**
+By **Saumya Shah** and **Anas TAGUI**
 
 ## Introduction
 
