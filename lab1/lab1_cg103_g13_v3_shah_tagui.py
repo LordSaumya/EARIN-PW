@@ -163,7 +163,7 @@ num_steps, viz = astar(maze, start_position, finish_position)
 
 # Print number of steps in path
 if num_steps != -1:
-    print(f"Path from {start_position} to {finish_position} using A* is {num_steps} steps.")
+    prInt(f"Path from {start_position} to {finish_position} using A* is {num_steps} steps.")
 else:
     print(f"No path from {start_position} to {finish_position} exists.")
 
