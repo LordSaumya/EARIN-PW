@@ -51,7 +51,7 @@ class Nim(object):
         if self.is_game_over(board):
             return self.WIN if sum(board) == 0 else self.LOSS
         
-        # If not terminal, return the nim sum (higher is better, 0 is losing position)
+        # If not terminal, return the nim sum
         return self.nim_sum(board)
 
     def minimax(self, board: Board, depth: int, maximizing_player: bool, alpha: Score, beta: Score) -> Tuple[Score, Move]:
