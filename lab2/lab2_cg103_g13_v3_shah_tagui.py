@@ -69,8 +69,6 @@ class Nim(object):
         - Everything needed to identify next move (returns a tuple of pile index and number of sticks to remove)
 
         """
-        # Initialise cache for this search
-        self.cache = {}
         
         # Best value for the maximising player
         def max_value(board: Board, depth: int, alpha: Score, beta: Score) -> Tuple[Score, Move]:
