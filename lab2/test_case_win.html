@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Nim Game Tree Visualisation</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+    h1 { color: #333; }
+    .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow-x: auto; }
+    svg { display: block; margin: 0 auto; /* Center SVG if container is wider */ }
+  </style>
+</head>
+<body>
+  <h1>Nim Game Tree Visualisation</h1>
+  <p>Initial Piles: [4, 2], Max Depth: 100</p>
+  <div class='container'>
+<svg width="7735" height="770" xmlns="http://www.w3.org/2000/svg" style="background-color: #fafafa;">
+
+<style>
+    text {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        pointer-events: none; /* Prevent text selection interfering */
+        dominant-baseline: middle; /* Better vertical alignment */
+    }
+    /* Font sizes are now set directly in draw_node for clarity */
+    line {
+         vector-effect: non-scaling-stroke; /* Keep stroke width constant on zoom */
+    }
+</style>
+<line x1="3867.5" y1="55" x2="1797.5" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="1797.5" y1="165" x2="762.5" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="762.5" y1="275" x2="302.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="302.5" y1="385" x2="130.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="130.0" y1="495" x2="72.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="72.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="72.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="72.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="72.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+<line x1="130.0" y1="495" x2="187.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="187.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="187.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="187.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="187.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="87.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="130.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="130.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="130.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+<line x1="302.5" y1="385" x2="360.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="360.0" y1="495" x2="302.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="302.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="302.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="302.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="302.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="360.0" y1="495" x2="417.5" y2="605" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="382.75" y1="544.0" x2="394.75" y2="556.0" stroke="#f44336" stroke-width="2"/>
+<line x1="382.75" y1="556.0" x2="394.75" y2="544.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="417.5" cy="605" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="417.5" y="605" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="407.5" y1="595" x2="427.5" y2="615" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="407.5" y1="615" x2="427.5" y2="595" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="317.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="360.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="360.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="360.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="302.5" y1="385" x2="532.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="490.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="532.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="532.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="532.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<ellipse cx="302.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="302.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 2</text>
+<text x="302.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="302.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+<line x1="762.5" y1="275" x2="705.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="705.0" y1="385" x2="647.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="605.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="647.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="647.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="647.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="705.0" y1="385" x2="762.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="727.75" y1="434.0" x2="739.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="727.75" y1="446.0" x2="739.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="720.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="762.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="752.5" y1="485" x2="772.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="752.5" y1="505" x2="772.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="705.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="705.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="705.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="705.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="762.5" y1="275" x2="1050.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="1050.0" y1="385" x2="935.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="935.0" y1="495" x2="877.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="877.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="877.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="877.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="877.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="935.0" y1="495" x2="992.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="992.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="992.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="992.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="992.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="892.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="935.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="935.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="935.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="1050.0" y1="385" x2="1107.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="1072.75" y1="434.0" x2="1084.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="1072.75" y1="446.0" x2="1084.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="1065.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="1107.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 1</text>
+<line x1="1097.5" y1="485" x2="1117.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1097.5" y1="505" x2="1117.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1050.0" y1="385" x2="1222.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="1130.25" y1="434.0" x2="1142.25" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="1130.25" y1="446.0" x2="1142.25" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="1180.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="1222.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 0</text>
+<line x1="1212.5" y1="485" x2="1232.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1212.5" y1="505" x2="1232.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="1050.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="1050.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 1</text>
+<text x="1050.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="1050.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="762.5" y1="275" x2="1395.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="1395.0" y1="385" x2="1337.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="1295.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="1337.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="1337.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="1337.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="1395.0" y1="385" x2="1452.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="1417.75" y1="434.0" x2="1429.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="1417.75" y1="446.0" x2="1429.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="1410.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="1452.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="1442.5" y1="485" x2="1462.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1442.5" y1="505" x2="1462.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="1395.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="1395.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 0</text>
+<text x="1395.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="1395.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="720.0" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="762.5" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 2</text>
+<text x="762.5" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="762.5" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+<line x1="1797.5" y1="165" x2="1740.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="1740.0" y1="275" x2="1625.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="1625.0" y1="385" x2="1567.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="1525.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="1567.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="1567.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="1567.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="1625.0" y1="385" x2="1682.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="1640.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="1682.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="1682.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="1682.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<ellipse cx="1625.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="1625.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="1625.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="1625.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="1740.0" y1="275" x2="1797.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="1762.75" y1="324.0" x2="1774.75" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="1762.75" y1="336.0" x2="1774.75" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="1797.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="1797.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 1</text>
+<line x1="1787.5" y1="375" x2="1807.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1787.5" y1="395" x2="1807.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1740.0" y1="275" x2="1912.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="1820.25" y1="324.0" x2="1832.25" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="1820.25" y1="336.0" x2="1832.25" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="1912.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="1912.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="1902.5" y1="375" x2="1922.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="1902.5" y1="395" x2="1922.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="1697.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="1740.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 2</text>
+<text x="1740.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="1740.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="1797.5" y1="165" x2="2085.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="2085.0" y1="275" x2="2027.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="2027.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="2027.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="2027.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="2027.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2085.0" y1="275" x2="2142.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2107.75" y1="324.0" x2="2119.75" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2107.75" y1="336.0" x2="2119.75" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="2142.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="2142.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="2132.5" y1="375" x2="2152.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2132.5" y1="395" x2="2152.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="2042.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="2085.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="2085.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="2085.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="1797.5" y1="165" x2="2660.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="2660.0" y1="275" x2="2487.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="2487.5" y1="385" x2="2315.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="2315.0" y1="495" x2="2257.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="2257.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="2257.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="2257.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="2257.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2315.0" y1="495" x2="2372.5" y2="605" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2337.75" y1="544.0" x2="2349.75" y2="556.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2337.75" y1="556.0" x2="2349.75" y2="544.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="2372.5" cy="605" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="2372.5" y="605" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="2362.5" y1="595" x2="2382.5" y2="615" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2362.5" y1="615" x2="2382.5" y2="595" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="2272.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="2315.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="2315.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="2315.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2487.5" y1="385" x2="2487.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="2445.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="2487.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="2487.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="2487.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2487.5" y1="385" x2="2660.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="2660.0" y1="495" x2="2602.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="2602.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="2602.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="2602.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="2602.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2660.0" y1="495" x2="2717.5" y2="605" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2682.75" y1="544.0" x2="2694.75" y2="556.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2682.75" y1="556.0" x2="2694.75" y2="544.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="2717.5" cy="605" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="2717.5" y="605" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="2707.5" y1="595" x2="2727.5" y2="615" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2707.5" y1="615" x2="2727.5" y2="595" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="2617.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="2660.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 0</text>
+<text x="2660.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="2660.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<ellipse cx="2487.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="2487.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 1</text>
+<text x="2487.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="2487.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="2660.0" y1="275" x2="2832.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2740.25" y1="324.0" x2="2752.25" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2740.25" y1="336.0" x2="2752.25" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="2832.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="2832.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 1</text>
+<line x1="2822.5" y1="375" x2="2842.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2822.5" y1="395" x2="2842.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2660.0" y1="275" x2="2947.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2797.75" y1="324.0" x2="2809.75" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2797.75" y1="336.0" x2="2809.75" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="2947.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="2947.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 1</text>
+<line x1="2937.5" y1="375" x2="2957.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2937.5" y1="395" x2="2957.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="2660.0" y1="275" x2="3062.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="2855.25" y1="324.0" x2="2867.25" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="2855.25" y1="336.0" x2="2867.25" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="3062.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="3062.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">3 0</text>
+<line x1="3052.5" y1="375" x2="3072.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3052.5" y1="395" x2="3072.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="2617.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="2660.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 1</text>
+<text x="2660.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="2660.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="1797.5" y1="165" x2="3350.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="3350.0" y1="275" x2="3235.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="3235.0" y1="385" x2="3177.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="3135.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="3177.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="3177.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="3177.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="3235.0" y1="385" x2="3292.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="3250.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="3292.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="3292.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="3292.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<ellipse cx="3235.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="3235.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 0</text>
+<text x="3235.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="3235.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<line x1="3350.0" y1="275" x2="3407.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="3372.75" y1="324.0" x2="3384.75" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="3372.75" y1="336.0" x2="3384.75" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="3407.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="3407.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="3397.5" y1="375" x2="3417.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3397.5" y1="395" x2="3417.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3350.0" y1="275" x2="3522.5" y2="385" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="3430.25" y1="324.0" x2="3442.25" y2="336.0" stroke="#f44336" stroke-width="2"/>
+<line x1="3430.25" y1="336.0" x2="3442.25" y2="324.0" stroke="#f44336" stroke-width="2"/>
+<ellipse cx="3522.5" cy="385" rx="34.0" ry="30.0" fill="#eeeeee" stroke="#bdbdbd" opacity="0.6"/>
+<text x="3522.5" y="385" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="3512.5" y1="375" x2="3532.5" y2="395" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3512.5" y1="395" x2="3532.5" y2="375" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<rect x="3307.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="3350.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 0</text>
+<text x="3350.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="3350.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=-10.0</text>
+<ellipse cx="1797.5" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="1797.5" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 2</text>
+<text x="1797.5" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="1797.5" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+<line x1="3867.5" y1="55" x2="4040.0" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="4040.0" y1="165" x2="3867.5" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="3867.5" y1="275" x2="3695.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="3695.0" y1="385" x2="3637.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="3595.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="3637.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="3637.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="3637.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3695.0" y1="385" x2="3752.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="3717.75" y1="434.0" x2="3729.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="3717.75" y1="446.0" x2="3729.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="3710.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="3752.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="3742.5" y1="485" x2="3762.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3742.5" y1="505" x2="3762.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="3695.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="3695.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="3695.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="3695.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="275" x2="3925.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="3925.0" y1="385" x2="3867.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="3825.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="3867.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="3867.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="3867.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3925.0" y1="385" x2="3982.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="3947.75" y1="434.0" x2="3959.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="3947.75" y1="446.0" x2="3959.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="3940.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="3982.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="3972.5" y1="485" x2="3992.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="3972.5" y1="505" x2="3992.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="3925.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="3925.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="3925.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="3925.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="275" x2="4097.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="4097.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="4097.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="4097.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="4097.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="3825.0" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="3867.5" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 2</text>
+<text x="3867.5" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="3867.5" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="4040.0" y1="165" x2="4212.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="4120.25" y1="214.0" x2="4132.25" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="4120.25" y1="226.0" x2="4132.25" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="4170.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="4212.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 2</text>
+<line x1="4202.5" y1="265" x2="4222.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4202.5" y1="285" x2="4222.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4040.0" y1="165" x2="4327.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="4177.75" y1="214.0" x2="4189.75" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="4177.75" y1="226.0" x2="4189.75" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="4285.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="4327.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 1</text>
+<line x1="4317.5" y1="265" x2="4337.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4317.5" y1="285" x2="4337.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4040.0" y1="165" x2="4442.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="4235.25" y1="214.0" x2="4247.25" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="4235.25" y1="226.0" x2="4247.25" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="4400.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="4442.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 0</text>
+<line x1="4432.5" y1="265" x2="4452.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4432.5" y1="285" x2="4452.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="4040.0" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="4040.0" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 2</text>
+<text x="4040.0" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="4040.0" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="55" x2="4730.0" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="4730.0" y1="165" x2="4615.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="4615.0" y1="275" x2="4557.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="4557.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="4557.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="4557.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="4557.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="4615.0" y1="275" x2="4672.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="4672.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="4672.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="4672.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="4672.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="4572.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="4615.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="4615.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="4615.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="4730.0" y1="165" x2="4787.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="4752.75" y1="214.0" x2="4764.75" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="4752.75" y1="226.0" x2="4764.75" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="4745.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="4787.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 1</text>
+<line x1="4777.5" y1="265" x2="4797.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4777.5" y1="285" x2="4797.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4730.0" y1="165" x2="4902.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="4810.25" y1="214.0" x2="4822.25" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="4810.25" y1="226.0" x2="4822.25" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="4860.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="4902.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="4892.5" y1="265" x2="4912.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="4892.5" y1="285" x2="4912.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="4730.0" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="4730.0" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 2</text>
+<text x="4730.0" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="4730.0" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="55" x2="5075.0" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="5075.0" y1="165" x2="5017.5" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="4975.0" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="5017.5" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="5017.5" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="5017.5" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5075.0" y1="165" x2="5132.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="5097.75" y1="214.0" x2="5109.75" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="5097.75" y1="226.0" x2="5109.75" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="5090.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="5132.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="5122.5" y1="265" x2="5142.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="5122.5" y1="285" x2="5142.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="5075.0" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="5075.0" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 2</text>
+<text x="5075.0" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="5075.0" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="55" x2="6052.5" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="6052.5" y1="165" x2="5822.5" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="5822.5" y1="275" x2="5420.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="5420.0" y1="385" x2="5305.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="5305.0" y1="495" x2="5247.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="5247.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="5247.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="5247.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="5247.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5305.0" y1="495" x2="5362.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="5362.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="5362.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="5362.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="5362.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="5262.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="5305.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="5305.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="5305.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5420.0" y1="385" x2="5477.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="5442.75" y1="434.0" x2="5454.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="5442.75" y1="446.0" x2="5454.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="5435.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="5477.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 1</text>
+<line x1="5467.5" y1="485" x2="5487.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="5467.5" y1="505" x2="5487.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="5420.0" y1="385" x2="5592.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="5500.25" y1="434.0" x2="5512.25" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="5500.25" y1="446.0" x2="5512.25" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="5550.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="5592.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 0</text>
+<line x1="5582.5" y1="485" x2="5602.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="5582.5" y1="505" x2="5602.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="5420.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="5420.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 1</text>
+<text x="5420.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="5420.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5822.5" y1="275" x2="5765.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="5765.0" y1="385" x2="5707.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="5665.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="5707.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="5707.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="5707.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5765.0" y1="385" x2="5822.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="5787.75" y1="434.0" x2="5799.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="5787.75" y1="446.0" x2="5799.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="5780.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="5822.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="5812.5" y1="485" x2="5832.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="5812.5" y1="505" x2="5832.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="5765.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="5765.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 1</text>
+<text x="5765.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-5.0</text>
+<text x="5765.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5822.5" y1="275" x2="5937.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="5937.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="5937.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 1</text>
+<text x="5937.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="5937.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="5822.5" y1="275" x2="6225.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="6225.0" y1="385" x2="6110.0" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="6110.0" y1="495" x2="6052.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="6052.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="6052.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="6052.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="6052.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="6110.0" y1="495" x2="6167.5" y2="605" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="6167.5" cy="605" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="6167.5" y="587" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="6167.5" y="605" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="6167.5" y="623" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="6067.5" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="6110.0" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 0</text>
+<text x="6110.0" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="6110.0" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="6225.0" y1="385" x2="6282.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6247.75" y1="434.0" x2="6259.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6247.75" y1="446.0" x2="6259.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6240.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6282.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="6272.5" y1="485" x2="6292.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6272.5" y1="505" x2="6292.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6225.0" y1="385" x2="6397.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6305.25" y1="434.0" x2="6317.25" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6305.25" y1="446.0" x2="6317.25" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6355.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6397.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="6387.5" y1="485" x2="6407.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6387.5" y1="505" x2="6407.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="6225.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="6225.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 0</text>
+<text x="6225.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="6225.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="5780.0" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="5822.5" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 1</text>
+<text x="5822.5" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="5822.5" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="6052.5" y1="165" x2="6512.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6276.5" y1="214.0" x2="6288.5" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6276.5" y1="226.0" x2="6288.5" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6470.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6512.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 1</text>
+<line x1="6502.5" y1="265" x2="6522.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6502.5" y1="285" x2="6522.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6052.5" y1="165" x2="6627.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6334.0" y1="214.0" x2="6346.0" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6334.0" y1="226.0" x2="6346.0" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6585.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6627.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 1</text>
+<line x1="6617.5" y1="265" x2="6637.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6617.5" y1="285" x2="6637.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6052.5" y1="165" x2="6742.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6391.5" y1="214.0" x2="6403.5" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6391.5" y1="226.0" x2="6403.5" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6700.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6742.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 1</text>
+<line x1="6732.5" y1="265" x2="6752.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6732.5" y1="285" x2="6752.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6052.5" y1="165" x2="6857.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="6449.0" y1="214.0" x2="6461.0" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="6449.0" y1="226.0" x2="6461.0" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="6815.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="6857.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">4 0</text>
+<line x1="6847.5" y1="265" x2="6867.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="6847.5" y1="285" x2="6867.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="6052.5" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="6052.5" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">4 1</text>
+<text x="6052.5" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="6052.5" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="3867.5" y1="55" x2="7317.5" y2="165" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="7317.5" y1="165" x2="7145.0" y2="275" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="7145.0" y1="275" x2="7030.0" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<line x1="7030.0" y1="385" x2="6972.5" y2="495" stroke="#90a4ae" stroke-width="1.5"/>
+<rect x="6930.0" y="465.0" width="85" height="60" fill="#e0f7fa" stroke="#1a237e" stroke-width="2" rx="5" ry="5" opacity="1.0"/>
+<text x="6972.5" y="477" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="6972.5" y="495" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="6972.5" y="513" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="7030.0" y1="385" x2="7087.5" y2="495" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="7052.75" y1="434.0" x2="7064.75" y2="446.0" stroke="#f44336" stroke-width="2"/>
+<line x1="7052.75" y1="446.0" x2="7064.75" y2="434.0" stroke="#f44336" stroke-width="2"/>
+<rect x="7045.0" y="465.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="7087.5" y="495" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="7077.5" y1="485" x2="7097.5" y2="505" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7077.5" y1="505" x2="7097.5" y2="485" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="7030.0" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="7030.0" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">2 0</text>
+<text x="7030.0" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="7030.0" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="7145.0" y1="275" x2="7202.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="7202.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="7202.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">1 0</text>
+<text x="7202.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="7202.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="7145.0" y1="275" x2="7317.5" y2="385" stroke="#90a4ae" stroke-width="1.5"/>
+<ellipse cx="7317.5" cy="385" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#1a237e" stroke-width="2" opacity="1.0"/>
+<text x="7317.5" y="367" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">0 0</text>
+<text x="7317.5" y="385" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=-10.0</text>
+<text x="7317.5" y="403" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="7102.5" y="245.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="7145.0" y="257" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">3 0</text>
+<text x="7145.0" y="275" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="7145.0" y="293" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<line x1="7317.5" y1="165" x2="7432.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="7369.0" y1="214.0" x2="7381.0" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="7369.0" y1="226.0" x2="7381.0" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="7390.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="7432.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">2 0</text>
+<line x1="7422.5" y1="265" x2="7442.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7422.5" y1="285" x2="7442.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7317.5" y1="165" x2="7547.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="7426.5" y1="214.0" x2="7438.5" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="7426.5" y1="226.0" x2="7438.5" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="7505.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="7547.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">1 0</text>
+<line x1="7537.5" y1="265" x2="7557.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7537.5" y1="285" x2="7557.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7317.5" y1="165" x2="7662.5" y2="275" stroke="#e57373" stroke-dasharray="5 3" stroke-width="1.5"/>
+<line x1="7484.0" y1="214.0" x2="7496.0" y2="226.0" stroke="#f44336" stroke-width="2"/>
+<line x1="7484.0" y1="226.0" x2="7496.0" y2="214.0" stroke="#f44336" stroke-width="2"/>
+<rect x="7620.0" y="245.0" width="85" height="60" fill="#eeeeee" stroke="#bdbdbd" rx="5" ry="5" opacity="0.6"/>
+<text x="7662.5" y="275" text-anchor="middle" font-size="12" fill="#757575" opacity="0.6">0 0</text>
+<line x1="7652.5" y1="265" x2="7672.5" y2="285" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<line x1="7652.5" y1="285" x2="7672.5" y2="265" stroke="#f44336" stroke-width="2" opacity="0.6"/>
+<ellipse cx="7317.5" cy="165" rx="34.0" ry="30.0" fill="#fce4ec" stroke="#c2185b" stroke-width="1" opacity="1.0"/>
+<text x="7317.5" y="147" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">4 0</text>
+<text x="7317.5" y="165" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="7317.5" y="183" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-10.0, β=+inf</text>
+<rect x="3825.0" y="25.0" width="85" height="60" fill="#e0f7fa" stroke="#00796b" stroke-width="1" rx="5" ry="5" opacity="1.0"/>
+<text x="3867.5" y="37" text-anchor="middle" font-size="13" font-weight="bold" opacity="1.0">4 2</text>
+<text x="3867.5" y="55" text-anchor="middle" font-size="10" fill="#37474f" opacity="1.0">v=-10.0, e=5.0</text>
+<text x="3867.5" y="73" text-anchor="middle" font-size="9" fill="#616161" opacity="1.0">α=-inf, β=+inf</text>
+</svg>  </div>
+</body>
+</html>
