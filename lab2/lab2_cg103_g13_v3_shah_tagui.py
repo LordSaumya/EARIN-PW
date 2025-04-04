@@ -147,10 +147,15 @@ class Nim(object):
         else:
             return min_value(board, depth, alpha, beta)
 
+
+### Test cases (uncomment and run to see output)
+# sys.stdin = open("./test-win.txt", "r")
+# sys.stdin = open("./test-loss.txt", "r")
+
 if __name__ == "__main__":
     """
     Main game loop
-    Firtsly, allow player to choose how many piles will be in the game and number of sticks in each pile
+    Firstly, allow player to choose how many piles will be in the game and number of sticks in each pile
 
     Implement the game loop
     """
