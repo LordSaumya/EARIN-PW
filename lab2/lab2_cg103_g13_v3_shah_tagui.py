@@ -17,8 +17,8 @@ class Nim(object):
 
     # Useful constants
     INF: Score = float('inf')  # Infinity value for alpha-beta pruning
-    WIN: Score = sys.maxsize  # Winning value
-    LOSS: Score = -WIN  # Losing value
+    WIN: Score = 10  # Winning value
+    LOSS: Score = -10  # Losing value
     MAX_DEPTH: int = 5  # Maximum depth for minimax search (used for efficient searching)
 
     def is_game_over(self, board: Board) -> bool:
