@@ -15,7 +15,7 @@ NUM_EPOCHS = 10 # Fixed
 NUM_HIDDEN_LAYERS = [0, 1, 2][1]  # Number of hidden layers
 HIDDEN_WIDTH = [32, 64, 128][0]  # Width of hidden layers
 SEED = 42  # For reproducibility
-LOSS_FUNCTION = [nn.CrossEntropyLoss(), nn.MSELoss(), nn.L1Loss()][2]
+ACTIVATION_FUNCTION = [nn.ReLU(), nn.Sigmoid(), nn.Tanh()][2]  # Activation function
 
 # --- Dataset (FashionMNIST) ---
 INPUT_SIZE = 28 * 28  # 784
@@ -29,7 +29,7 @@ print(f"Learning Rate: {LEARNING_RATE}")
 print(f"Batch Size: {BATCH_SIZE}")
 print(f"Number of Hidden Layers: {NUM_HIDDEN_LAYERS}")
 print(f"Hidden Layer Width: {HIDDEN_WIDTH}")
-print(f"Loss Function: {LOSS_FUNCTION.__class__.__name__}")
+print(f"Activation Function: {ACTIVATION_FUNCTION.__class__.__name__}")
 
 # --- Data Loading and Preprocessing ---
 print("\n--- Data Loading and Preprocessing ---")
@@ -88,12 +88,12 @@ class MultilayerPerceptron(nn.Module):
             layers.append(nn.Linear(input_size, output_size))
         else:
             layers.append(nn.Linear(input_size, hidden_width))
-            layers.append(nn.ReLU())
+            layers.append(ACTIVATION_FUNCTION)
 
             # Hidden layers
             for _ in range(num_hidden_layers - 1):
                 layers.append(nn.Linear(hidden_width, hidden_width))
-                layers.append(nn.ReLU())
+                layers.append(ACTIVATION_FUNCTION)
 
             # Output layer
             layers.append(nn.Linear(hidden_width, output_size))
@@ -115,7 +115,7 @@ model = MultilayerPerceptron(
 print(model)
 
 print("\n--- Training Process ---")
-print(f"Using Loss Function: {LOSS_FUNCTION.__class__.__name__}")
+print(f"Using Activation Function: {ACTIVATION_FUNCTION.__class__.__name__}")
 
 # Optimiser
 optimiser = optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -140,13 +140,7 @@ for epoch in range(NUM_EPOCHS):
 
         # Forward pass
         outputs = model(images)
-
-        # One-hot encode labels if using MSELoss or L1Loss
-        if isinstance(LOSS_FUNCTION, (nn.MSELoss, nn.L1Loss)):
-            labels_one_hot = torch.nn.functional.one_hot(labels, num_classes=OUTPUT_SIZE).float()
-            loss = LOSS_FUNCTION(outputs, labels_one_hot)
-        else:
-            loss = LOSS_FUNCTION(outputs, labels)
+        loss = nn.CrossEntropyLoss()(outputs, labels)
 
         # Backward and optimise
         optimiser.zero_grad()
@@ -174,14 +168,7 @@ for epoch in range(NUM_EPOCHS):
             images = images.to(device)
             labels = labels.to(device)
             outputs = model(images)
-
-            # One-hot encode labels if using MSELoss or L1Loss
-            if isinstance(LOSS_FUNCTION, (nn.MSELoss, nn.L1Loss)):
-                labels_one_hot = torch.nn.functional.one_hot(labels, num_classes=OUTPUT_SIZE).float()
-                loss = LOSS_FUNCTION(outputs, labels_one_hot)
-            else:
-                loss = LOSS_FUNCTION(outputs, labels)
-
+            loss = nn.CrossEntropyLoss()(outputs, labels)
             running_val_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)
             total_val += labels.size(0)
@@ -209,14 +196,7 @@ with torch.no_grad():
         images = images.to(device)
         labels = labels.to(device)
         outputs = model(images)
-
-        # One-hot encode labels if using MSELoss or L1Loss
-        if isinstance(LOSS_FUNCTION, (nn.MSELoss, nn.L1Loss)):
-            labels_one_hot = torch.nn.functional.one_hot(labels, num_classes=OUTPUT_SIZE).float()
-            loss = LOSS_FUNCTION(outputs, labels_one_hot)
-        else:
-            loss = LOSS_FUNCTION(outputs, labels)
-
+        loss = nn.CrossEntropyLoss()(outputs, labels)
         test_loss += loss.item()
         _, predicted = torch.max(outputs.data, 1)
         total_test += labels.size(0)
