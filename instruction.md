@@ -1,0 +1,1 @@
+Simply run the code with `to_words(N)` where `N` is the number you want to convert to words (between 0 and 1000).
