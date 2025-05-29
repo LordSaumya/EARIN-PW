@@ -7,6 +7,7 @@ from typing import Tuple
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import f1_score, confusion_matrix, roc_curve, auc
+from sklearn.naive_bayes import GaussianNB
 
 # Global consts for feature names and target column
 TARGET_COLUMN = "Heart Attack Risk"
@@ -42,10 +43,7 @@ def preprocess_data(df: pl.LazyFrame) -> pl.DataFrame:
     ]
 
     # _binary_features list is now global: ORIGINAL_BINARY_FEATURES
-    # _categorical_features list is used for deciding encoding strategy
     _categorical_features: list[str] = ["Sex", "Diet", "Country", "Continent", "Hemisphere"]
-
-    # target_column is global: TARGET_COLUMN
 
     # Start with engineered dataframe
     df_encoded: pl.LazyFrame = df_engineered
@@ -148,7 +146,7 @@ def split_data(df: pl.DataFrame, test_size: float, validation_size: float) -> tu
 
 def apply_smote_and_post_corrections(
     df: pl.DataFrame, 
-    target_col_name: str
+    target_col_name: str = TARGET_COLUMN
 ) -> pl.DataFrame:
     
     feature_columns = [col for col in df.columns if col != target_col_name]
@@ -208,6 +206,46 @@ def apply_smote_and_post_corrections(
     balanced_data_dict[target_col_name] = y_balanced
     
     return pl.DataFrame(balanced_data_dict)
+
+
+def get_features_to_drop_by_correlation(
+    df: pl.DataFrame,
+    target_column_name: str = TARGET_COLUMN,
+    threshold: float = 0.85
+) -> Tuple[set[str], pl.DataFrame | None]:
+    
+    feature_columns = [col for col in df.columns if col != target_column_name]
+    
+    if not feature_columns:
+        return set(), None
+
+    # Find numeric and bool columns
+    numeric_feature_cols_for_corr = []
+    for col_name in feature_columns:
+        if df[col_name].dtype in [pl.Float32, pl.Float64, pl.Int8, pl.Int16, pl.Int32, pl.Int64, pl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64]:
+            numeric_feature_cols_for_corr.append(col_name)
+        elif df[col_name].dtype == pl.Boolean:
+             numeric_feature_cols_for_corr.append(col_name)
+
+    # Create correlation matrix for numeric features
+    corr_matrix = df.select(numeric_feature_cols_for_corr).corr()
+    
+    features_to_drop = set()
+    cols_to_iterate = corr_matrix.columns
+
+    # Iterate through the correlation matrix to find pairs with high correlation and drop second feature
+    for i in range(len(cols_to_iterate)):
+        for j in range(i + 1, len(cols_to_iterate)):
+            col1 = cols_to_iterate[i]
+            col2 = cols_to_iterate[j]
+
+            correlation_value = corr_matrix.row(i)[j] # Correlation between col_i and col_j
+
+            if abs(correlation_value) > threshold:
+                features_to_drop.add(col2)
+                print(f"High correlation ({correlation_value:.2f}) between '{col1}' and '{col2}'. Marking '{col2}' for removal.")
+
+    return features_to_drop, corr_matrix
 
 
 # Function for KNN-specific preprocessing
@@ -339,6 +377,98 @@ def knn_model(train_df: pl.DataFrame, val_df: pl.DataFrame, test_df: pl.DataFram
     )
     roc_fig.show()
 
+def gaussian_nb_model(
+    original_train_df_smoted: pl.DataFrame,
+    original_val_df: pl.DataFrame,
+    original_test_df: pl.DataFrame,
+    features_to_drop: set[str],
+    target_column_name: str = TARGET_COLUMN
+):
+    # Remove correlated features
+    all_cols_train = original_train_df_smoted.columns
+    gnb_feature_columns = [
+        col for col in all_cols_train
+        if col != target_column_name and col not in features_to_drop
+    ]
+    
+    X_train_gnb = original_train_df_smoted.select(gnb_feature_columns).to_numpy()
+    y_train_gnb = original_train_df_smoted.select(target_column_name).to_numpy().flatten()
+    
+    X_val_gnb = original_val_df.select(gnb_feature_columns).to_numpy()
+    y_val_gnb = original_val_df.select(target_column_name).to_numpy().flatten()
+    
+    X_test_gnb = original_test_df.select(gnb_feature_columns).to_numpy()
+    y_test_gnb = original_test_df.select(target_column_name).to_numpy().flatten()
+
+    # Hyperparameter tuning for var_smoothing
+    var_smoothing_values = np.logspace(-9, -2, num=100)
+    best_var_smoothing = var_smoothing_values[0]
+    best_f1_val = 0.0
+    validation_f1_scores_gnb = []
+
+    for sm_val in var_smoothing_values:
+        gnb_temp_classifier = GaussianNB(var_smoothing=sm_val)
+        gnb_temp_classifier.fit(X_train_gnb, y_train_gnb)
+        y_val_pred_temp_gnb = gnb_temp_classifier.predict(X_val_gnb)
+        f1_val_temp_gnb = f1_score(y_val_gnb, y_val_pred_temp_gnb)
+        validation_f1_scores_gnb.append(f1_val_temp_gnb)
+        print(f"  var_smoothing={sm_val:.2e}: Validation F1 Score = {f1_val_temp_gnb:.4f}")
+        if f1_val_temp_gnb > best_f1_val:
+            best_f1_val = f1_val_temp_gnb
+            best_var_smoothing = sm_val
+    
+    print(f"Best var_smoothing found: {best_var_smoothing:.2e} with Validation F1 Score: {best_f1_val:.4f}")
+
+    # Plot var_smoothing vs validation_f1_scores
+    fig_vs = px.line(x=var_smoothing_values, y=validation_f1_scores_gnb,
+                     labels={'x':'var_smoothing', 'y':'Validation F1 Score'},
+                     title='GNB Hyperparameter Tuning: var_smoothing vs. Validation F1 Score',
+                     log_x=True)
+    fig_vs.show()
+
+    # Train final GNB classifier with the best var_smoothing
+    final_gnb_classifier = GaussianNB(var_smoothing=best_var_smoothing)
+    final_gnb_classifier.fit(X_train_gnb, y_train_gnb)
+
+    # Evaluate final model on validation and test sets
+    y_val_pred_final_gnb = final_gnb_classifier.predict(X_val_gnb)
+    f1_val_final_gnb = f1_score(y_val_gnb, y_val_pred_final_gnb)
+    print(f"Final GNB Model - Validation F1 Score (var_smoothing={best_var_smoothing:.2e}): {f1_val_final_gnb:.4f}")
+
+    y_test_pred_final_gnb = final_gnb_classifier.predict(X_test_gnb)
+    f1_test_final_gnb = f1_score(y_test_gnb, y_test_pred_final_gnb)
+    print(f"Final GNB Model - Test F1 Score (var_smoothing={best_var_smoothing:.2e}): {f1_test_final_gnb:.4f}")
+
+    # Confusion Matrix for Test Set
+    cm_gnb = confusion_matrix(y_test_gnb, y_test_pred_final_gnb)
+    cm_fig_gnb = px.imshow(cm_gnb,
+                           labels=dict(x="Predicted", y="Actual", color="Count"),
+                           x=['No Risk (0)', 'Risk (1)'],
+                           y=['No Risk (0)', 'Risk (1)'],
+                           text_auto=True,
+                           title=f"GNB Confusion Matrix for Test Set (var_smoothing={best_var_smoothing:.2e})",
+                           color_continuous_scale=px.colors.sequential.Greens)
+    cm_fig_gnb.update_layout(xaxis_title="Predicted Label", yaxis_title="True Label")
+    cm_fig_gnb.show()
+
+    # ROC Curve and AUC for Test Set
+    y_test_proba_gnb = final_gnb_classifier.predict_proba(X_test_gnb)[:, 1]
+    fpr_gnb, tpr_gnb, _ = roc_curve(y_test_gnb, y_test_proba_gnb)
+    roc_auc_gnb = auc(fpr_gnb, tpr_gnb)
+
+    roc_fig_gnb = go.Figure()
+    roc_fig_gnb.add_trace(go.Scatter(x=fpr_gnb, y=tpr_gnb, mode='lines', name=f'GNB ROC curve (AUC = {roc_auc_gnb:.2f})'))
+    roc_fig_gnb.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode='lines', name='Random Chance (AUC = 0.5)', line=dict(dash='dash')))
+    
+    roc_fig_gnb.update_layout(
+        title=f'GNB Receiver Operating Characteristic (ROC) Curve for Test Set (var_smoothing={best_var_smoothing:.2e})',
+        xaxis_title='False Positive Rate',
+        yaxis_title='True Positive Rate',
+        legend=dict(x=0.7, y=0.1)
+    )
+    roc_fig_gnb.show()
+
+
 if __name__ == "__main__":
     # Load dataset
     lf = pl.scan_csv("heart_attack_prediction_dataset.csv")
@@ -346,19 +476,22 @@ if __name__ == "__main__":
     # Preprocess data (encoding, outlier removal, NO SMOTE)
     processed_df: pl.DataFrame = preprocess_data(lf)
     
-    # Split data into train, validation, and test sets
-    train_df, val_df, test_df = split_data(processed_df, test_size=0.1, validation_size=0.1)
+    # KNN Workflow
+    train_df_knn, val_df_knn, test_df_knn = split_data(processed_df.clone(), test_size=0.1, validation_size=0.1)
+    train_df_smoted_knn = apply_smote_and_post_corrections(train_df_knn.clone())
+    # knn_model(train_df_smoted_knn.clone(), val_df_knn.clone(), test_df_knn.clone())
 
-    # Apply SMOTE and post-corrections ONLY to the training set
-    print(f"Shape of train_df before SMOTE: {train_df.shape}")
-    if TARGET_COLUMN in train_df.columns:
-        print(f"Class distribution in train_df before SMOTE:\n{train_df[TARGET_COLUMN].value_counts()}")
-    
-    train_df_smoted = apply_smote_and_post_corrections(train_df, TARGET_COLUMN)
-    
-    print(f"Shape of train_df after SMOTE: {train_df_smoted.shape}")
-    if TARGET_COLUMN in train_df_smoted.columns:
-        print(f"Class distribution in train_df after SMOTE:\n{train_df_smoted[TARGET_COLUMN].value_counts()}")
+    # Gaussian Naive Bayes Workflow
+    features_to_drop_for_gnb, _ = get_features_to_drop_by_correlation(
+        df=processed_df.clone(), # Use a clone of the original processed_df
+        target_column_name=TARGET_COLUMN,
+        threshold=0.85
+    )
 
-    # Run KNN model workflow
-    knn_model(train_df_smoted, val_df, test_df)
+    gaussian_nb_model(
+        original_train_df_smoted=train_df_smoted_knn.clone(),
+        original_val_df=val_df_knn.clone(),
+        original_test_df=test_df_knn.clone(),
+        features_to_drop=features_to_drop_for_gnb,
+        target_column_name=TARGET_COLUMN
+    )
