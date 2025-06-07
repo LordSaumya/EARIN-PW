@@ -421,8 +421,8 @@ def knn_model(train_df: pl.DataFrame, val_df: pl.DataFrame, test_df: pl.DataFram
         )
         roc_fig.show()
 
-    # Return ROC data for combined plotting
-    return fpr, tpr, roc_auc, f"KNN (k={best_k})"
+    # Return ROC data and timing data for combined plotting
+    return fpr, tpr, roc_auc, f"KNN (k={best_k})", total_inference_time
 
 
 def mixed_naive_bayes_model(
@@ -666,8 +666,8 @@ def mixed_naive_bayes_model(
         )
         roc_fig.show()
 
-    # Return ROC data for combined plotting
-    return fpr, tpr, roc_auc, "Mixed Naive Bayes"
+    # Return ROC data and timing data for combined plotting
+    return fpr, tpr, roc_auc, "Mixed Naive Bayes", total_inference_time, training_time
 
 
 def neural_network_model(
@@ -955,8 +955,8 @@ def neural_network_model(
         )
         roc_fig.show()
 
-    # Return ROC data for combined plotting
-    return fpr, tpr, roc_auc, "Neural Network"
+    # Return ROC data and timing data for combined plotting
+    return fpr, tpr, roc_auc, "Neural Network", total_inference_time, training_time
 
 
 def set_seeds(seed):
@@ -990,7 +990,7 @@ if __name__ == "__main__":
 
     print("\n-------------------------KNN MODEL EVALUATION--------------------------")
     # KNN Workflow - with standard scaling for numerical features
-    knn_fpr, knn_tpr, knn_auc, knn_label = knn_model(
+    knn_fpr, knn_tpr, knn_auc, knn_label, knn_inference_time = knn_model(
         train_df.clone(), val_df.clone(), test_df.clone()
     )
 
@@ -998,7 +998,7 @@ if __name__ == "__main__":
         "\n-------------------------MIXED NAIVE BAYES MODEL EVALUATION--------------------------"
     )
     # Mixed Naive Bayes Workflow - no additional preprocessing needed
-    nb_fpr, nb_tpr, nb_auc, nb_label = mixed_naive_bayes_model(
+    nb_fpr, nb_tpr, nb_auc, nb_label, nb_inference_time, nb_training_time = mixed_naive_bayes_model(
         train_df.clone(), val_df.clone(), test_df.clone()
     )
 
@@ -1006,7 +1006,7 @@ if __name__ == "__main__":
         "\n-------------------------NEURAL NETWORK MODEL EVALUATION--------------------------"
     )
     # Neural Network Workflow - with feature standardisation
-    nn_fpr, nn_tpr, nn_auc, nn_label = neural_network_model(
+    nn_fpr, nn_tpr, nn_auc, nn_label, nn_inference_time, nn_training_time = neural_network_model(
         train_df.clone(), val_df.clone(), test_df.clone()
     )
 
@@ -1068,13 +1068,74 @@ if __name__ == "__main__":
 
         combined_roc_fig.show()
 
+        # Create inference time comparison log plot
+        models_timing = [knn_label, nb_label, nn_label]
+        inference_times = [knn_inference_time, nb_inference_time, nn_inference_time]
+        training_times = [0, nb_training_time, nn_training_time]
+        
+        # Log plot for inference times
+        timing_fig = go.Figure()
+        
+        # Add inference times
+        timing_fig.add_trace(
+            go.Bar(
+                x=models_timing,
+                y=inference_times,
+                name="Inference Time",
+                marker_color=['blue', 'green', 'red'],
+                yaxis='y1'
+            )
+        )
+        
+        # Add training times on secondary y-axis (if any model has training time)
+        if any(t > 0 for t in training_times):
+            timing_fig.add_trace(
+                go.Bar(
+                    x=models_timing,
+                    y=training_times,
+                    name="Training Time",
+                    marker_color=['lightblue', 'lightgreen', 'lightcoral'],
+                    yaxis='y2',
+                    opacity=0.7
+                )
+            )
+        
+        timing_fig.update_layout(
+            title="Model Timing Comparison (Log Scale)",
+            xaxis_title="Models",
+            yaxis=dict(
+                title="Inference Time (seconds)",
+                type='log',  # Set y-axis to log scale
+                side="left"
+            ),
+            yaxis2=dict(
+                title="Training Time (seconds)",
+                type='log',  # Set secondary y-axis to log scale
+                side="right",
+                overlaying="y"
+            ),
+            barmode='group',
+            font=dict(size=12),
+            legend=dict(x=0.7, y=0.9)
+        )
+        
+        timing_fig.show()
+
     # Print summary comparison
     print("\nModel Performance Summary (AUC):")
     print(f"  {knn_label}: {knn_auc:.4f}")
     print(f"  {nb_label}: {nb_auc:.4f}")
     print(f"  {nn_label}: {nn_auc:.4f}")
 
-    # Determine best model
-    models = [(knn_auc, knn_label), (nb_auc, nb_label), (nn_auc, nn_label)]
-    best_auc, best_model = max(models)
+    print("\nModel Timing Summary:")
+    print(f"  {knn_label} - Inference: {knn_inference_time:.6f}s, Training: N/A")
+    print(f"  {nb_label} - Inference: {nb_inference_time:.6f}s, Training: {nb_training_time:.6f}s")
+    print(f"  {nn_label} - Inference: {nn_inference_time:.6f}s, Training: {nn_training_time:.6f}s")
+
+    models = [(knn_auc, knn_label, knn_inference_time),
+              (nb_auc, nb_label, nb_inference_time),
+                (nn_auc, nn_label, nn_inference_time)]
+    best_auc, best_model, _ = max(models, key=lambda x: x[0])
     print(f"\nBest performing model: {best_model} (AUC = {best_auc:.4f})")
+    _, fastest_model, fastest_time = min(models, key=lambda x: x[2])
+    print(f"\nFastest inference model: {fastest_model} (Inference Time = {fastest_time:.6f}s)")
