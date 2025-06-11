@@ -1116,7 +1116,13 @@ if __name__ == "__main__":
             ),
             barmode='group',
             font=dict(size=12),
-            legend=dict(x=0.7, y=0.9)
+            legend=dict(
+                x=1.02,  # Position legend to the right of the plot
+                y=1.0,   # Align legend to the top
+                xanchor='left',
+                yanchor='top',
+                borderwidth=1 # Add a border to the legend
+            )
         )
         
         timing_fig.show()
